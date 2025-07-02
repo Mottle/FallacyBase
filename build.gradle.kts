@@ -6,7 +6,7 @@ plugins {
     `maven-publish`
     idea
     id("net.neoforged.moddev") version "2.0.96"
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm")
 }
 
 version = project.property("mod_version") as String
@@ -14,12 +14,18 @@ group = project.property("mod_group_id") as String
 
 repositories {
     mavenLocal()
+
     maven {
         name = "Kotlin for Forge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
         content {
             includeGroup("thedarkcolour")
         }
+    }
+
+    maven {
+        name = "ithundxr's Maven Snapshots"
+        url = uri("https://maven.ithundxr.dev/snapshots")
     }
 }
 
@@ -99,7 +105,14 @@ sourceSets["main"].resources {
 }
 
 dependencies {
-    implementation("thedarkcolour:kotlinforforge-neoforge:5.3.0")
+    implementation("thedarkcolour:kotlinforforge-neoforge:${project.property("kotlin4forge_version")}")
+
+    compileOnly("net.luckperms:api:5.4")
+
+    with(project.property("registrate_version") as String) {
+        implementation(group = "com.tterrag.registrate", name = "Registrate", version = this)
+        jarJar(group = "com.tterrag.registrate", name = "Registrate", version = this)
+    }
 }
 
 // 模组元数据生成任务
@@ -127,11 +140,6 @@ val generateModMetadata by tasks.register<Copy>("generateModMetadata") {
 
 // 将生成的元数据添加到资源目录
 sourceSets["main"].resources.srcDir(generateModMetadata)
-
-// 确保IDE同步任务包含元数据生成
-//tasks.named("ideSyncTask") {
-//    dependsOn(generateModMetadata)
-//}
 
 neoForge.ideSyncTask(generateModMetadata)
 
