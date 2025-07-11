@@ -16,7 +16,8 @@ data class UIContext(val visited: List<VisitedUI> = emptyList()) {
             }
         }
 
-        data class UIComponent(val uiComponent: com.github.wintersteve25.tau.components.base.UIComponent) : VisitedUI() {
+        data class UIComponent(val uiComponent: com.github.wintersteve25.tau.components.base.UIComponent) :
+            VisitedUI() {
             override fun display() {
                 Minecraft.getInstance().setScreen(ExtendedUIRender(uiComponent))
             }

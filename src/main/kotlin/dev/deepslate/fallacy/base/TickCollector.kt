@@ -13,15 +13,18 @@ object TickCollector {
     val serverTickCount: Int get() = ServerLifecycleHooks.getCurrentServer()?.tickCount ?: Int.MIN_VALUE
 
     @JvmStatic
-    var clientTickCount: Int = Int.MIN_VALUE
-        private set
+    val clientTickCount: Int
+        get() = if (internalClickTickCount > 0) internalClickTickCount else Int.MIN_VALUE
+
+    @JvmStatic
+    private var internalClickTickCount = 0
 
     @OnlyIn(Dist.CLIENT)
     @EventBusSubscriber(modid = TheMod.ID)
     object ClientHandler {
         @SubscribeEvent(priority = EventPriority.HIGHEST)
         fun onClientTick(event: ClientTickEvent.Pre) {
-            clientTickCount++
+            internalClickTickCount++
         }
     }
 
