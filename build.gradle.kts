@@ -15,6 +15,10 @@ group = project.property("mod_group_id") as String
 repositories {
     mavenLocal()
 
+    flatDir {
+        dirs("../lib")
+    }
+
     maven {
         name = "Kotlin for Forge"
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
@@ -113,6 +117,9 @@ dependencies {
         implementation(group = "com.tterrag.registrate", name = "Registrate", version = this)
         jarJar(group = "com.tterrag.registrate", name = "Registrate", version = this)
     }
+
+    api(group = "com.github.wintersteve25.tau", name = "tau", version = "2.0.4")
+    jarJar(group = "com.github.wintersteve25.tau", name = "tau", version = "[2.0.4, 3)")
 }
 
 // 模组元数据生成任务
