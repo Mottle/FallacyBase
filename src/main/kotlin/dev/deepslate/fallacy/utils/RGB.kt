@@ -1,6 +1,7 @@
 package dev.deepslate.fallacy.utils
 
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.serialization.Codec
 import kotlin.math.floor
 
 data class RGB(val red: Int, val green: Int, val blue: Int) {
@@ -17,6 +18,13 @@ data class RGB(val red: Int, val green: Int, val blue: Int) {
 
         fun fromHex(hex: String): RGB {
             val value = Integer.decode(hex)
+            val r = (value shr 16) and 0xff
+            val g = (value shr 8) and 0xff
+            val b = value and 0xff
+            return RGB(r, g, b)
+        }
+
+        fun from(value: Int): RGB {
             val r = (value shr 16) and 0xff
             val g = (value shr 8) and 0xff
             val b = value and 0xff
