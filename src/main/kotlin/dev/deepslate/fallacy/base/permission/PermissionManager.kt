@@ -2,7 +2,7 @@ package dev.deepslate.fallacy.base.permission
 
 import dev.deepslate.fallacy.base.TheMod
 import dev.deepslate.fallacy.base.permission.integration.LuckPermsProvider
-import dev.deepslate.fallacy.base.permission.integration.SimplePermissionProvider
+import dev.deepslate.fallacy.base.permission.integration.OpPermissionProvider
 import dev.deepslate.fallacy.utils.permission.PermissionProvider
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -10,7 +10,7 @@ import net.neoforged.fml.loading.FMLLoader
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent
 import org.slf4j.LoggerFactory
 
-private var instance: PermissionProvider = SimplePermissionProvider()
+private var instance: PermissionProvider = OpPermissionProvider()
 
 object PermissionManager : PermissionProvider by instance {
     @EventBusSubscriber(modid = TheMod.ID)
