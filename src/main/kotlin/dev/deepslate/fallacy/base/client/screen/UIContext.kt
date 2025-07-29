@@ -24,10 +24,15 @@ data class UIContext(val visited: List<VisitedUI> = emptyList()) {
         }
     }
 
-    fun previousUI() = visited.first()
+    val previousUI get() = visited.firstOrNull()
 
     fun displayPreviousUI() {
-        previousUI().display()
+        if (previousUI != null) previousUI!!.display()
+        else {
+            val minecraft = Minecraft.getInstance()
+            minecraft.setScreen(null)
+            minecraft.mouseHandler.grabMouse()
+        }
     }
 
     fun generateNext(uiComponent: UIComponent) = UIContext(visited + VisitedUI.UIComponent(uiComponent))
