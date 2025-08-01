@@ -28,14 +28,16 @@ data class UIContext(val visited: List<VisitedUI> = emptyList()) {
 
     fun displayPreviousUI() {
         if (previousUI != null) previousUI!!.display()
-        else {
-            val minecraft = Minecraft.getInstance()
-            minecraft.setScreen(null)
-            minecraft.mouseHandler.grabMouse()
-        }
+        else closeUI()
     }
 
     fun generateNext(uiComponent: UIComponent) = UIContext(visited + VisitedUI.UIComponent(uiComponent))
 
     fun generateNext(screen: Screen) = UIContext(visited + VisitedUI.Screen(screen))
+
+    fun closeUI() {
+        val minecraft = Minecraft.getInstance()
+        minecraft.setScreen(null)
+        minecraft.mouseHandler.grabMouse()
+    }
 }
