@@ -15,14 +15,16 @@ class ColoredTexture(
     private val uv: SimpleVec2i,
     private val uvSize: SimpleVec2i,
     private val size: SimpleVec2i,
-    private val color: RGB?
+    private val color: RGB?,
+    private val sprite: Boolean
 ) : PrimitiveUIComponent {
 
     override fun build(layout: Layout, theme: Theme, context: BuildContext): SimpleVec2i {
         val position = layout.getPosition(this.size)
         context.renderables().add { graphics, pMouseX, pMouseY, pPartialTicks ->
             color?.pushGL()
-            graphics.blit(
+
+            if (!sprite) graphics.blit(
                 this.textureLocation,
                 position.x,
                 position.y,
@@ -34,7 +36,8 @@ class ColoredTexture(
                 this.uvSize.y,
                 this.textureSize.x,
                 this.textureSize.y
-            )
+            ) else graphics.blitSprite(textureLocation, position.x, position.y, size.x, size.y) // TODO fix
+
             if (color != null) RGB.reset()
         }
         return this.size
@@ -46,6 +49,7 @@ class ColoredTexture(
         private var uvSize: SimpleVec2i? = null
         private var size: SimpleVec2i? = null
         private var color: RGB? = null
+        private var sprite = false
 
         fun withTextureSize(textureSize: SimpleVec2i) = apply { this.textureSize = textureSize }
 
@@ -57,13 +61,16 @@ class ColoredTexture(
 
         fun withColor(color: RGB) = apply { this.color = color }
 
+        fun useSprite(boolean: Boolean) = apply { this.sprite = boolean }
+
         fun build() = ColoredTexture(
             this.textureLocation,
             this.textureSize ?: SimpleVec2i(256, 256),
             this.uv ?: SimpleVec2i.zero(),
             this.uvSize ?: this.textureSize ?: SimpleVec2i(256, 256),
             this.size ?: this.uvSize ?: this.textureSize ?: SimpleVec2i(256, 256),
-            this.color
+            this.color,
+            sprite
         )
 
         override fun build(layout: Layout, theme: Theme) = build()
