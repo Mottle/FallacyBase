@@ -6,6 +6,7 @@ import com.github.wintersteve25.tau.components.base.UIComponent
 import com.github.wintersteve25.tau.layout.Layout
 import com.github.wintersteve25.tau.theme.Theme
 import com.github.wintersteve25.tau.utils.SimpleVec2i
+import com.mojang.blaze3d.systems.RenderSystem
 import dev.deepslate.fallacy.utils.RGB
 import net.minecraft.resources.ResourceLocation
 
@@ -22,6 +23,7 @@ class ColoredTexture(
     override fun build(layout: Layout, theme: Theme, context: BuildContext): SimpleVec2i {
         val position = layout.getPosition(this.size)
         context.renderables().add { graphics, pMouseX, pMouseY, pPartialTicks ->
+            RenderSystem.enableBlend()
             color?.pushGL()
 
             if (!sprite) graphics.blit(
@@ -39,6 +41,7 @@ class ColoredTexture(
             ) else graphics.blitSprite(textureLocation, position.x, position.y, size.x, size.y) // TODO fix
 
             if (color != null) RGB.reset()
+            RenderSystem.disableBlend()
         }
         return this.size
     }

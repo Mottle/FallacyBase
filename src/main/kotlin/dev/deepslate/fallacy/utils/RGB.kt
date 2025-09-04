@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.serialization.Codec
 import kotlin.math.floor
 
-data class RGB(val red: Int, val green: Int, val blue: Int) {
+data class RGB(val red: Int, val green: Int, val blue: Int, val alpha: Float = 1f) {
     companion object {
         fun from(red: Int, green: Int, blue: Int): RGB = RGB(red, green, blue)
 
@@ -42,12 +42,12 @@ data class RGB(val red: Int, val green: Int, val blue: Int) {
     val value: Int
         get() = (red shl 16) + (green shl 8) + blue
 
-    fun pushGLWithAlpha(alpha: Float) {
+    private fun pushGLWithAlpha(alpha: Float) {
         val r = red / 255.0f
         val g = green / 255.0f
         val b = blue / 255.0f
         RenderSystem.setShaderColor(r, g, b, alpha)
     }
 
-    fun pushGL() = pushGLWithAlpha(1f)
+    fun pushGL() = pushGLWithAlpha(alpha)
 }
