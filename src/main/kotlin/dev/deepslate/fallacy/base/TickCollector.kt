@@ -1,7 +1,5 @@
 package dev.deepslate.fallacy.base
 
-import net.neoforged.api.distmarker.Dist
-import net.neoforged.api.distmarker.OnlyIn
 import net.neoforged.bus.api.EventPriority
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -19,7 +17,7 @@ object TickCollector {
     @JvmStatic
     private var internalClickTickCount = 0
 
-    @OnlyIn(Dist.CLIENT)
+    //    @OnlyIn(Dist.CLIENT)
     @EventBusSubscriber(modid = TheMod.ID)
     object ClientHandler {
         @SubscribeEvent(priority = EventPriority.HIGHEST)
