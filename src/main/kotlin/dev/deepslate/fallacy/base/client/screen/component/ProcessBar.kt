@@ -10,9 +10,9 @@ import com.github.wintersteve25.tau.utils.SimpleVec2i
 import com.github.wintersteve25.tau.utils.Size
 import dev.deepslate.fallacy.base.TheMod
 import dev.deepslate.fallacy.base.client.screen.component.primitive.ColoredTexture
-import dev.deepslate.fallacy.utils.RGB
+import dev.deepslate.fallacy.utils.ARGB
 
-class ProcessBar(val ratio: Int, val color: RGB = RGB.fromHex("0x32cd32")) : UIComponent {
+class ProcessBar(val ratio: Int, val color: ARGB = ARGB.fromHex("0x32cd32")) : UIComponent {
 
     companion object {
         @JvmStatic

@@ -7,7 +7,7 @@ import com.github.wintersteve25.tau.layout.Layout
 import com.github.wintersteve25.tau.theme.Theme
 import com.github.wintersteve25.tau.utils.SimpleVec2i
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.deepslate.fallacy.utils.RGB
+import dev.deepslate.fallacy.utils.ARGB
 import net.minecraft.resources.ResourceLocation
 
 class ColoredTexture(
@@ -16,7 +16,7 @@ class ColoredTexture(
     private val uv: SimpleVec2i,
     private val uvSize: SimpleVec2i,
     private val size: SimpleVec2i,
-    private val color: RGB?,
+    private val color: ARGB?,
     private val sprite: Boolean
 ) : PrimitiveUIComponent {
 
@@ -40,7 +40,7 @@ class ColoredTexture(
                 this.textureSize.y
             ) else graphics.blitSprite(textureLocation, position.x, position.y, size.x, size.y) // TODO fix
 
-            if (color != null) RGB.reset()
+            if (color != null) ARGB.reset()
             RenderSystem.disableBlend()
         }
         return this.size
@@ -51,7 +51,7 @@ class ColoredTexture(
         private var uv: SimpleVec2i? = null
         private var uvSize: SimpleVec2i? = null
         private var size: SimpleVec2i? = null
-        private var color: RGB? = null
+        private var color: ARGB? = null
         private var sprite = false
 
         fun withTextureSize(textureSize: SimpleVec2i) = apply { this.textureSize = textureSize }
@@ -62,7 +62,7 @@ class ColoredTexture(
 
         fun withSize(size: SimpleVec2i) = apply { this.size = size }
 
-        fun withColor(color: RGB) = apply { this.color = color }
+        fun withColor(color: ARGB) = apply { this.color = color }
 
         fun useSprite(boolean: Boolean) = apply { this.sprite = boolean }
 
