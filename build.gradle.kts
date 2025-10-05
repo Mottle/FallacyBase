@@ -114,7 +114,7 @@ dependencies {
     compileOnly("net.luckperms:api:5.4")
 
     with(project.property("registrate_version") as String) {
-        implementation(group = "com.tterrag.registrate", name = "Registrate", version = this)
+        api(group = "com.tterrag.registrate", name = "Registrate", version = this)
         jarJar(group = "com.tterrag.registrate", name = "Registrate", version = this)
     }
 
