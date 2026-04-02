@@ -12,6 +12,7 @@ abstract class SingleWriterMultiReaderNibble(data: ByteArray? = null) {
 
     protected var writeableData: BitSet = if (data == null) BitSet(getMaxBitSet()) else BitSet.valueOf(data)
 
+    @Volatile
     protected var readableData: BitSet = writeableData.clone() as BitSet
 
     protected fun getAt(index: Int, data: BitSet): Int {
@@ -40,7 +41,9 @@ abstract class SingleWriterMultiReaderNibble(data: ByteArray? = null) {
     fun getIndex(x: Int, y: Int, z: Int) = y.let(::fixInput) * 256 + x.let(::fixInput) * 16 + z.let(::fixInput)
 
     fun set(index: Int, value: Int) {
-        setAt(index, value, writeableData)
+        synchronized(this) {
+            setAt(index, value, writeableData)
+        }
     }
 
     fun set(x: Int, y: Int, z: Int, value: Int) {
@@ -48,7 +51,9 @@ abstract class SingleWriterMultiReaderNibble(data: ByteArray? = null) {
     }
 
     fun getWriteable(index: Int): Int {
-        return getAt(index, writeableData)
+        synchronized(this) {
+            return getAt(index, writeableData)
+        }
     }
 
     fun getWriteable(x: Int, y: Int, z: Int): Int = getWriteable(getIndex(x, y, z))
@@ -75,9 +80,11 @@ abstract class SingleWriterMultiReaderNibble(data: ByteArray? = null) {
     fun isAllOne(): Boolean = synchronized(this) { isAll(writeableData, 0, getMaxBitSet() - 1, true) }
 
     fun flip(update: Boolean = false) {
-        writeableData.flip(0, getMaxBitSet() - 1)
+        synchronized(this) {
+            writeableData.flip(0, getMaxBitSet() - 1)
+        }
         if (update) update()
     }
 
-    fun toByteArray(): ByteArray = writeableData.toByteArray()
+    fun toByteArray(): ByteArray = synchronized(this) { writeableData.toByteArray() }
 }
