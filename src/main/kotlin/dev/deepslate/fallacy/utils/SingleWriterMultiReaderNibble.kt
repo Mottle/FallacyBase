@@ -81,7 +81,7 @@ abstract class SingleWriterMultiReaderNibble(data: ByteArray? = null) {
 
     fun flip(update: Boolean = false) {
         synchronized(this) {
-            writeableData.flip(0, getMaxBitSet() - 1)
+            writeableData.flip(0, getMaxBitSet())
         }
         if (update) update()
     }
